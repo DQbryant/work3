@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.WeatherMapper">
+    <insert id="insert">
+        insert into casts values
+        (#{city},#{date},#{week},#{dayweather},#{nightweather},#{daytemp},#{nighttemp},#{daywind},#{nightwind},#{daypower},#{nightpower})
+        on duplicate key update week=#{week},dayweather=#{dayweather},nightweather=#{nightweather},daytemp=#{daytemp},
+        nighttemp=#{nighttemp},daywind=#{daywind},nightwind=#{nightwind},daypower=#{daypower},nightpower=#{nightpower}
+    </insert>
+    <select id="selectCity" resultType="int">
+        select adcode from city
+    </select>
+    <select id="selectOne" resultType="int">
+        select adcode from city where city_name=#{0}
+    </select>
+    <delete id="deleteOne">
+        delete from casts where city=#{0} and to_days(date) &lt; to_days(now())
+    </delete>
+    <select id="selectWeather" resultType="cast">
+        select * from casts where city=#{0} and to_days(date) &gt;= to_days(now())
+    </select>
+</mapper>
